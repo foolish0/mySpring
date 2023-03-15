@@ -1,7 +1,7 @@
-package com.myspring;
+package com.myspring.beans;
 
 /**
- * @author lizhenjiang
+ * @author Gabriel
  */
 public class BeanDefinition {
     private String id;
