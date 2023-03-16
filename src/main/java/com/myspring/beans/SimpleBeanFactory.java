@@ -9,9 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 2023-03-15 23:30
  */
 public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory{
-    //    private List<BeanDefinition> beanDefinitions = new ArrayList<>();
-//    private List<String> beanNames = new ArrayList<>();
-//    private Map<String, Object> singletons = new HashMap<>();
     private Map<String, BeanDefinition> beanDefinitions = new ConcurrentHashMap<>(256);
     public SimpleBeanFactory() {
     }
