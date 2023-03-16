@@ -23,11 +23,15 @@ public interface BeanFactory {
      */
     Boolean containsBean(String name);
 
+    boolean isSingleton(String name);
+
+    boolean isPrototype(String name);
+
     /**
-     * 注册BeanDefinition
+     * 获取Bean的类型
      *
-     * @param beanName bean名称
-     * @param obj 与beanName对应的Bean
+     * @param name
+     * @return
      */
-    void registerBean(String beanName, Object obj);
+    Class<?> getType(String name);
 }

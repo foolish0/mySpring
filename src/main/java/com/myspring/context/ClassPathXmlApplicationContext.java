@@ -7,7 +7,7 @@ import com.myspring.core.Resource;
 /**
  * @author Gabriel
  */
-public class ClassPathXmlApplicationContext implements BeanFactory {
+public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationEventPublisher {
     BeanFactory beanFactory;
 
     /**
@@ -39,7 +39,22 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
     }
 
     @Override
-    public void registerBean(String beanName, Object obj) {
-        this.beanFactory.registerBean(beanName, obj);
+    public boolean isSingleton(String name) {
+        return false;
+    }
+
+    @Override
+    public boolean isPrototype(String name) {
+        return false;
+    }
+
+    @Override
+    public Class<?> getType(String name) {
+        return null;
+    }
+
+    @Override
+    public void publishEvent(ApplicationEvent event) {
+
     }
 }
