@@ -16,9 +16,18 @@ public interface BeanFactory {
     Object getBean(String beanName) throws BeansException;
 
     /**
+     * 是否包含Bean
+     *
+     * @param name Bean名称
+     * @return boolean
+     */
+    Boolean containsBean(String name);
+
+    /**
      * 注册BeanDefinition
      *
-     * @param beanDefinition 需要注册的BeanDefinition
+     * @param beanName bean名称
+     * @param obj 与beanName对应的Bean
      */
-    void registerBeanDefinition(BeanDefinition beanDefinition);
+    void registerBean(String beanName, Object obj);
 }
