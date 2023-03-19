@@ -8,7 +8,7 @@ import com.myspring.core.Resource;
  * @author Gabriel
  */
 public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationEventPublisher {
-    BeanFactory beanFactory;
+    SimpleBeanFactory beanFactory;
 
     /**
      * context负责整合容器启动过程，读外部配置、解析Bean定义、创建BeanFactory
@@ -16,11 +16,18 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
      * @param fileName 配置文件名
      */
     public ClassPathXmlApplicationContext(String fileName) {
+        this(fileName, true);
+    }
+
+    public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
         Resource resource = new ClassPathXmlResource(fileName);
         SimpleBeanFactory beanFactory = new SimpleBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
         reader.loadBeanDefinitions(resource);
         this.beanFactory = beanFactory;
+        if (isRefresh) {
+            this.beanFactory.refresh();
+        }
     }
 
     /**
