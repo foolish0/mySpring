@@ -5,22 +5,13 @@ package com.myspring.test;
  * @since 2023-03-19 16:37
  */
 public class BaseService {
-    private String id;
-    private String name;
+    private BaseBaseService baseBaseService;
 
-    public String getId() {
-        return id;
+    public BaseBaseService getBaseBaseService() {
+        return baseBaseService;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setBaseBaseService(BaseBaseService baseBaseService) {
+        this.baseBaseService = baseBaseService;
     }
 }

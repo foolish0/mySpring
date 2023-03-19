@@ -9,7 +9,10 @@
     </bean>
 
     <bean id="baseservice" class="com.myspring.test.BaseService">
-        <property type="String" name="id" value="001"/>
-        <property type="String" name="name" value="name001"/>
+        <property type="com.myspring.test.BaseBaseService" name="baseBaseService" ref="basebaseservice"/>
+    </bean>
+
+    <bean id="basebaseservice" class="com.myspring.test.BaseBaseService">
+        <property type="com.myspring.test.AServiceImpl" name="as" ref="aservice"/>
     </bean>
 </beans>
