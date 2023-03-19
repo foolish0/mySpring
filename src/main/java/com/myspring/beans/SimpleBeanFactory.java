@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory, BeanDefinitionRegistry{
     private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
     private List<String> beanDefinitionNames = new ArrayList<>();
+    private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
     public SimpleBeanFactory() {
     }
 
@@ -25,22 +27,33 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         Object singleton = this.getSingleton(beanName);
         // 没有这个bean的实例，则获取它的定义来创建实例
         if (singleton == null) {
-            // 获取bean的定义
-            BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
-            if (beanDefinition == null) {
-                throw new BeansException("No bean.");
-            }
-            try {
-//                singleton = Class.forName(beanDefinition.getClassName()).newInstance();
+            singleton = this.earlySingletonObjects.get(beanName);
+            if (singleton == null) {
+                // 获取bean的定义
+                BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
                 singleton = createBean(beanDefinition);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
         }
         return singleton;
     }
 
     private Object createBean(BeanDefinition beanDefinition) {
+        Class<?> clz = null;
+        Object obj = doCreateBean(beanDefinition);
+        this.earlySingletonObjects.put(beanDefinition.getId(), obj);
+        try {
+            clz = Class.forName(beanDefinition.getClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // 处理属性
+        handleProperties(beanDefinition, clz, obj);
+
+        return obj;
+    }
+
+    private Object doCreateBean(BeanDefinition beanDefinition) {
         Class<?> clz = null;
         Object obj = null;
         Constructor<?> con = null;
@@ -82,14 +95,10 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        handleProperties(beanDefinition, clz, obj);
-
         return obj;
     }
 
     private void handleProperties(BeanDefinition beanDefinition, Class<?> clz, Object obj) {
-        // 处理属性
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
         if (!propertyValues.isEmpty()) {
             for (int i = 0; i < propertyValues.size(); i++) {
