@@ -5,6 +5,7 @@ public class AServiceImpl implements AService {
     private int level;
     private String property1;
     private String property2;
+    private BaseService baseService;
 
     public AServiceImpl() {
 
@@ -19,6 +20,14 @@ public class AServiceImpl implements AService {
     public void sayHello() {
         System.out.println(this.name + "," + this.level);
         System.out.println(this.property1 + "," + this.property2);
+    }
+
+    public BaseService getBaseService() {
+        return baseService;
+    }
+
+    public void setBaseService(BaseService baseService) {
+        this.baseService = baseService;
     }
 
     public String getProperty1() {

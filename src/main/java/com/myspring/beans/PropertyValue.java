@@ -5,14 +5,16 @@ package com.myspring.beans;
  * @since 2023-03-16 22:27
  */
 public class PropertyValue {
-    private String type;
-    private String name;
-    private Object value;
+    private final String type;
+    private final String name;
+    private final Object value;
+    private final boolean isRef;
 
-    public PropertyValue(String type, String name, Object value) {
+    public PropertyValue(String type, String name, Object value, boolean isRef) {
         this.type = type;
         this.name = name;
         this.value = value;
+        this.isRef = isRef;
     }
 
     public String getName() {
@@ -27,7 +29,7 @@ public class PropertyValue {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public boolean isRef() {
+        return isRef;
     }
 }
