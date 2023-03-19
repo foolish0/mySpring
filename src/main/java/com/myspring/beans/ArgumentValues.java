@@ -13,7 +13,7 @@ public class ArgumentValues {
     public ArgumentValues() {
     }
 
-    private void addArgumentValue(Integer key, ArgumentValue newValue) {
+    public void addArgumentValue(Integer key, ArgumentValue newValue) {
         this.indexedArgumentValues.put(key, newValue);
     }
 

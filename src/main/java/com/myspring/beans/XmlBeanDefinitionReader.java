@@ -36,11 +36,14 @@ public class XmlBeanDefinitionReader {
             // 处理构造函数
             List<Element> constructorElements = element.elements("constructor-arg");
             ArgumentValues AVS = new ArgumentValues();
+            int i = 0;
             for (Element e : constructorElements) {
                 String aType = e.attributeValue("type");
                 String aName = e.attributeValue("name");
                 String aValue = e.attributeValue("value");
                 AVS.addGenericArgumentValue(new ArgumentValue(aValue, aType, aName));
+                // todo：spring自己是如何添加有序列的参数对象的？
+                AVS.addArgumentValue(i++, new ArgumentValue(aValue, aType, aName));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 

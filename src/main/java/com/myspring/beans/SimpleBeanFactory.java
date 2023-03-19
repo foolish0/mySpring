@@ -31,7 +31,8 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
                 throw new BeansException("No bean.");
             }
             try {
-                singleton = Class.forName(beanDefinition.getClassName()).newInstance();
+//                singleton = Class.forName(beanDefinition.getClassName()).newInstance();
+                singleton = createBean(beanDefinition);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -108,12 +109,12 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
                 String methodName = "set" + pName.substring(0, 1).toUpperCase() + pName.substring(1);
                 Method method = null;
                 try {
-                    method = clz.getMethod(methodName);
+                    method = clz.getMethod(methodName, types);
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }
                 try {
-                    method.invoke(clz, values);
+                    method.invoke(obj, values);
                 } catch (InvocationTargetException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
