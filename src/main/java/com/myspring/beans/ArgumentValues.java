@@ -29,7 +29,7 @@ public class ArgumentValues {
         this.genericArgumentValues.add(new ArgumentValue(value, type));
     }
 
-    private void addGenericArgumentValue(ArgumentValue newValue) {
+    public void addGenericArgumentValue(ArgumentValue newValue) {
         if (newValue.getName() != null) {
             for (Iterator<ArgumentValue> it = this.genericArgumentValues.iterator(); it.hasNext(); ) {
                 ArgumentValue currentValue = it.next();

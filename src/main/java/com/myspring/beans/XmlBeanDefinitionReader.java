@@ -3,6 +3,8 @@ package com.myspring.beans;
 import com.myspring.core.Resource;
 import org.dom4j.Element;
 
+import java.util.List;
+
 /**
  * @author Gabriel
  * @Description 解析好的Xml转换成BeanDefinition
@@ -21,6 +23,27 @@ public class XmlBeanDefinitionReader {
             String beanId = element.attributeValue("id");
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanId, beanClassName);
+            // 处理属性
+            List<Element> propertyElements = element.elements("property");
+            PropertyValues PVS = new PropertyValues();
+            for (Element e : propertyElements) {
+                String pType = e.attributeValue("type");
+                String pName = e.attributeValue("name");
+                String pValue = e.attributeValue("value");
+                PVS.addPropertyValue(new PropertyValue(pType, pName, pValue));
+            }
+            beanDefinition.setPropertyValues(PVS);
+            // 处理构造函数
+            List<Element> constructorElements = element.elements("constructor-arg");
+            ArgumentValues AVS = new ArgumentValues();
+            for (Element e : constructorElements) {
+                String aType = e.attributeValue("type");
+                String aName = e.attributeValue("name");
+                String aValue = e.attributeValue("value");
+                AVS.addGenericArgumentValue(new ArgumentValue(aValue, aType, aName));
+            }
+            beanDefinition.setConstructorArgumentValues(AVS);
+
             this.simpleBeanFactory.registerBeanDefinition(beanDefinition);
         }
     }
