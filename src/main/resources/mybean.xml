@@ -9,7 +9,7 @@
     </bean>
 
     <bean id="baseservice" class="com.myspring.test.BaseService">
-        <property type="com.myspring.test.BaseBaseService" name="baseBaseService" ref="basebaseservice"/>
+<!--        <property type="com.myspring.test.BaseBaseService" name="baseBaseService" ref="basebaseservice"/>-->
     </bean>
 
     <bean id="basebaseservice" class="com.myspring.test.BaseBaseService">

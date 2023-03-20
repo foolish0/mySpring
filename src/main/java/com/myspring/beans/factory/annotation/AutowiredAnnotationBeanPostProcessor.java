@@ -34,6 +34,7 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
                 if (isAutowired) {
                     // 根据属性名查找同名bean
                     String fieldName = field.getName();
+                    // todo: spring怎么做的，我这里属性名必须和注册的bean名称相同
                     Object autowiredObj = this.getBeanFactory().getBean(fieldName);
                     // 设置属性值，完成注入
                     try {

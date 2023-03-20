@@ -1,17 +1,24 @@
 package com.myspring.test;
 
+import com.myspring.beans.factory.annotation.Autowired;
+
 /**
  * @author Gabriel
  * @since 2023-03-19 16:37
  */
 public class BaseService {
-    private BaseBaseService baseBaseService;
+    @Autowired
+    private BaseBaseService basebaseservice;
 
-    public BaseBaseService getBaseBaseService() {
-        return baseBaseService;
+    public BaseService() {
+
     }
 
-    public void setBaseBaseService(BaseBaseService baseBaseService) {
-        this.baseBaseService = baseBaseService;
+    public BaseBaseService getBasebaseservice() {
+        return basebaseservice;
+    }
+
+    public void setBasebaseservice(BaseBaseService basebaseservice) {
+        this.basebaseservice = basebaseservice;
     }
 }

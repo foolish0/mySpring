@@ -1,10 +1,11 @@
 package com.myspring.beans.factory.xml;
 
-import com.myspring.beans.*;
+import com.myspring.beans.PropertyValue;
+import com.myspring.beans.PropertyValues;
 import com.myspring.beans.factory.config.BeanDefinition;
 import com.myspring.beans.factory.config.ConstructorArgumentValue;
 import com.myspring.beans.factory.config.ConstructorArgumentValues;
-import com.myspring.beans.factory.support.SimpleBeanFactory;
+import com.myspring.beans.factory.support.AutowireCapableBeanFactory;
 import com.myspring.core.Resource;
 import org.dom4j.Element;
 
@@ -17,10 +18,10 @@ import java.util.List;
  * @since 2023-03-15 23:01
  */
 public class XmlBeanDefinitionReader {
-    SimpleBeanFactory simpleBeanFactory;
+    AutowireCapableBeanFactory beanFactory;
 
-    public XmlBeanDefinitionReader(SimpleBeanFactory simpleBeanFactory) {
-        this.simpleBeanFactory = simpleBeanFactory;
+    public XmlBeanDefinitionReader(AutowireCapableBeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
     public void loadBeanDefinitions(Resource resource) {
@@ -67,7 +68,7 @@ public class XmlBeanDefinitionReader {
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 
-            this.simpleBeanFactory.registerBeanDefinition(beanId, beanDefinition);
+            this.beanFactory.registerBeanDefinition(beanId, beanDefinition);
         }
     }
 }
