@@ -47,6 +47,7 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
                 // 获取bean的定义
                 BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
                 singleton = createBean(beanDefinition);
+                this.registerSingleton(beanName, singleton);
             }
         }
         return singleton;
