@@ -1,4 +1,6 @@
-package com.myspring.beans;
+package com.myspring.beans.factory.support;
+
+import com.myspring.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description
  * @since 2023-03-16 20:36
  */
-public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry{
+public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     protected List<String> beanNames = new ArrayList<>();
 
     protected Map<String, Object> singletons = new ConcurrentHashMap<>(256);

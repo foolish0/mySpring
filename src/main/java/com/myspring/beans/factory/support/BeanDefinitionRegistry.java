@@ -1,4 +1,6 @@
-package com.myspring.beans;
+package com.myspring.beans.factory.support;
+
+import com.myspring.beans.factory.config.BeanDefinition;
 
 /**
  * @author Gabriel

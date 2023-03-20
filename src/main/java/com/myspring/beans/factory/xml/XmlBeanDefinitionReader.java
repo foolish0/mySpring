@@ -1,5 +1,10 @@
-package com.myspring.beans;
+package com.myspring.beans.factory.xml;
 
+import com.myspring.beans.*;
+import com.myspring.beans.factory.config.BeanDefinition;
+import com.myspring.beans.factory.config.ConstructorArgumentValue;
+import com.myspring.beans.factory.config.ConstructorArgumentValues;
+import com.myspring.beans.factory.support.SimpleBeanFactory;
 import com.myspring.core.Resource;
 import org.dom4j.Element;
 
@@ -50,15 +55,15 @@ public class XmlBeanDefinitionReader {
 
             // 处理构造函数
             List<Element> constructorElements = element.elements("constructor-arg");
-            ArgumentValues AVS = new ArgumentValues();
+            ConstructorArgumentValues AVS = new ConstructorArgumentValues();
             int i = 0;
             for (Element e : constructorElements) {
                 String aType = e.attributeValue("type");
                 String aName = e.attributeValue("name");
                 String aValue = e.attributeValue("value");
-                AVS.addGenericArgumentValue(new ArgumentValue(aValue, aType, aName));
+                AVS.addGenericArgumentValue(new ConstructorArgumentValue(aValue, aType, aName));
                 // todo：spring自己是如何添加有序列的参数对象的？
-                AVS.addArgumentValue(i++, new ArgumentValue(aValue, aType, aName));
+                AVS.addArgumentValue(i++, new ConstructorArgumentValue(aValue, aType, aName));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 

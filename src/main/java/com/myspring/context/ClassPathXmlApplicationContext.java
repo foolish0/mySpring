@@ -1,6 +1,8 @@
 package com.myspring.context;
 
 import com.myspring.beans.*;
+import com.myspring.beans.factory.support.SimpleBeanFactory;
+import com.myspring.beans.factory.xml.XmlBeanDefinitionReader;
 import com.myspring.core.ClassPathXmlResource;
 import com.myspring.core.Resource;
 

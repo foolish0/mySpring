@@ -1,4 +1,6 @@
-package com.myspring.beans;
+package com.myspring.beans.factory.config;
+
+import com.myspring.beans.PropertyValues;
 
 /**
  * @author Gabriel
@@ -8,7 +10,7 @@ public class BeanDefinition {
     String SCOPE_PROTOTYPE = "prototype";
     private boolean lazyInit = true;
     private String[] dependsOn;
-    private ArgumentValues constructorArgumentValues;
+    private ConstructorArgumentValues constructorArgumentValues;
     private PropertyValues propertyValues;
     private String initMethodName;
     private volatile Object beanClass;
@@ -61,12 +63,12 @@ public class BeanDefinition {
         this.dependsOn = dependsOn;
     }
 
-    public ArgumentValues getConstructorArgumentValues() {
+    public ConstructorArgumentValues getConstructorArgumentValues() {
         return constructorArgumentValues;
     }
 
-    public void setConstructorArgumentValues(ArgumentValues constructorArgumentValues) {
-        this.constructorArgumentValues = constructorArgumentValues != null ? constructorArgumentValues : new ArgumentValues();
+    public void setConstructorArgumentValues(ConstructorArgumentValues constructorArgumentValues) {
+        this.constructorArgumentValues = constructorArgumentValues != null ? constructorArgumentValues : new ConstructorArgumentValues();
     }
 
     public PropertyValues getPropertyValues() {

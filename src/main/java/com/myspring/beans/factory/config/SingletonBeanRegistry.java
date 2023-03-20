@@ -1,4 +1,4 @@
-package com.myspring.beans;
+package com.myspring.beans.factory.config;
 
 /**
  * @author Gabriel
