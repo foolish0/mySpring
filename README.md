@@ -6,7 +6,7 @@
     - [x]  原始Ioc
     - [x]  扩展Bean
     - [x]  依赖注入
-    - [ ]  增强IoC
+    - [x]  增强IoC
     - [ ]  完整的IoC
 - [ ]  MVC
     - [ ]  原始MVC
