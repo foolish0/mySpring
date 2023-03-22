@@ -1,9 +1,11 @@
-package com.myspring.beans.factory.support;
+package com.myspring.beans.factory;
 
 import com.myspring.beans.*;
 import com.myspring.beans.factory.config.BeanDefinition;
 import com.myspring.beans.factory.config.ConstructorArgumentValue;
 import com.myspring.beans.factory.config.ConstructorArgumentValues;
+import com.myspring.beans.factory.support.BeanDefinitionRegistry;
+import com.myspring.beans.factory.support.DefaultSingletonBeanRegistry;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

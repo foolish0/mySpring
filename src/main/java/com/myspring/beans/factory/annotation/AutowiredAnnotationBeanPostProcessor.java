@@ -2,7 +2,7 @@ package com.myspring.beans.factory.annotation;
 
 import com.myspring.beans.BeansException;
 import com.myspring.beans.factory.config.BeanPostProcessor;
-import com.myspring.beans.factory.support.AutowireCapableBeanFactory;
+import com.myspring.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.lang.reflect.Field;
 

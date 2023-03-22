@@ -3,8 +3,8 @@ package com.myspring.context;
 import com.myspring.beans.BeanFactory;
 import com.myspring.beans.BeansException;
 import com.myspring.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+import com.myspring.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.myspring.beans.factory.config.BeanPostProcessor;
-import com.myspring.beans.factory.support.AutowireCapableBeanFactory;
 import com.myspring.beans.factory.xml.XmlBeanDefinitionReader;
 import com.myspring.core.ClassPathXmlResource;
 import com.myspring.core.Resource;
@@ -12,11 +12,11 @@ import com.myspring.core.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**ppp
  * @author Gabriel
  */
 public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationEventPublisher {
-    AutowireCapableBeanFactory beanFactory;
+    AbstractAutowireCapableBeanFactory beanFactory;
     private final List<BeanPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
 
     /**
@@ -30,7 +30,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
 
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
         Resource resource = new ClassPathXmlResource(fileName);
-        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
+        AbstractAutowireCapableBeanFactory beanFactory = new AbstractAutowireCapableBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
         reader.loadBeanDefinitions(resource);
         this.beanFactory = beanFactory;
@@ -52,7 +52,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
         onRefresh();
     }
 
-    private void registerBeanPostProcessors(AutowireCapableBeanFactory beanFactory) {
+    private void registerBeanPostProcessors(AbstractAutowireCapableBeanFactory beanFactory) {
         beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
     }
 

@@ -5,7 +5,7 @@ import com.myspring.beans.PropertyValues;
 import com.myspring.beans.factory.config.BeanDefinition;
 import com.myspring.beans.factory.config.ConstructorArgumentValue;
 import com.myspring.beans.factory.config.ConstructorArgumentValues;
-import com.myspring.beans.factory.support.AutowireCapableBeanFactory;
+import com.myspring.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.myspring.core.Resource;
 import org.dom4j.Element;
 
@@ -18,9 +18,9 @@ import java.util.List;
  * @since 2023-03-15 23:01
  */
 public class XmlBeanDefinitionReader {
-    AutowireCapableBeanFactory beanFactory;
+    AbstractAutowireCapableBeanFactory beanFactory;
 
-    public XmlBeanDefinitionReader(AutowireCapableBeanFactory beanFactory) {
+    public XmlBeanDefinitionReader(AbstractAutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 

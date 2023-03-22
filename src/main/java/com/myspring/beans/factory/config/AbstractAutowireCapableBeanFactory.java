@@ -1,8 +1,8 @@
-package com.myspring.beans.factory.support;
+package com.myspring.beans.factory.config;
 
 import com.myspring.beans.BeansException;
 import com.myspring.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import com.myspring.beans.factory.config.BeanPostProcessor;
+import com.myspring.beans.factory.support.AbstractBeanFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @author Gabriel
  * @since 2023-03-20 22:49
  */
-public class AutowireCapableBeanFactory extends AbstractBeanFactory{
+public class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
     private final List<AutowiredAnnotationBeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     public void addBeanPostProcessor(AutowiredAnnotationBeanPostProcessor beanPostProcessor) {
