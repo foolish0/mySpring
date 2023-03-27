@@ -14,7 +14,8 @@ import java.util.Map;
  * @author Gabriel
  * @since 2023-03-22 22:54
  */
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory {
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
+        implements ConfigurableListableBeanFactory {
     @Override
     public int getBeanDefinitionCount() {
         return this.beanDefinitionMap.size();
@@ -46,6 +47,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return (String[]) result.toArray();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
         String[] beanNames = getBeanNamesForType(type);

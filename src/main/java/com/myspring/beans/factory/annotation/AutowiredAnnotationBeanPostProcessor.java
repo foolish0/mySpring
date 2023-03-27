@@ -1,8 +1,8 @@
 package com.myspring.beans.factory.annotation;
 
+import com.myspring.beans.BeanFactory;
 import com.myspring.beans.BeansException;
 import com.myspring.beans.factory.config.BeanPostProcessor;
-import com.myspring.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.lang.reflect.Field;
 
@@ -11,13 +11,13 @@ import java.lang.reflect.Field;
  * @since 2023-03-20 21:48
  */
 public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
-    private AutowireCapableBeanFactory beanFactory;
+    private BeanFactory beanFactory;
 
-    public AutowireCapableBeanFactory getBeanFactory() {
+    public BeanFactory getBeanFactory() {
         return beanFactory;
     }
 
-    public void setBeanFactory(AutowireCapableBeanFactory beanFactory) {
+    public void setBeanFactory(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 

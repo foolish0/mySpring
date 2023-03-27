@@ -1,5 +1,6 @@
 package com.myspring.beans.factory.config;
 
+import com.myspring.beans.BeanFactory;
 import com.myspring.beans.BeansException;
 
 /**
@@ -20,10 +21,12 @@ public interface BeanPostProcessor {
     /**
      * Bean初始化之后
      *
-     * @param bean bean对象
+     * @param bean     bean对象
      * @param beanName 名称
      * @return 对象
      * @throws BeansException exception
      */
     Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException;
+
+    void setBeanFactory(BeanFactory beanFactory);
 }

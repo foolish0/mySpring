@@ -54,11 +54,17 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 
     @Override
     public void refresh() throws IllegalStateException, BeansException {
+        // 处理bean
         postProcessBeanFactory(getBeanFactory());
+        // 对bean的状态进行一些操作
         registerBeanPostProcessors(getBeanFactory());
+        // 初始化事件发布者
         initApplicationEventPublisher();
+        // 初始化完的bean进行应用上下文刷新
         onRefresh();
+        // 注册监听者
         registerListener();
+        // 应用上下文刷新完成后的自定义处理
         finishRefresh();
     }
 
@@ -160,6 +166,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     @Override
     public String[] getDependenciesForBean(String beanName) {
         return getBeanFactory().getDependenciesForBean(beanName);
+    }
+
+    @Override
+    public boolean hasDependentBean(String beanName) {
+        return getBeanFactory().hasDependentBean(beanName);
     }
 
     @Override
