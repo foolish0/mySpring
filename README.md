@@ -2,7 +2,7 @@
 
 重新学习spring框架，模仿spring的实现完成一个迷你版
 
-- [ ]  IoC容器
+- [x]  IoC容器
     - [x]  原始Ioc
     - [x]  扩展Bean
     - [x]  依赖注入
