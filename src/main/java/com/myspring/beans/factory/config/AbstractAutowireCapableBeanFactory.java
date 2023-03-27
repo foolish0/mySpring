@@ -11,7 +11,7 @@ import java.util.List;
  * @author Gabriel
  * @since 2023-03-20 22:49
  */
-public class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
     private final List<AutowiredAnnotationBeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     public void addBeanPostProcessor(AutowiredAnnotationBeanPostProcessor beanPostProcessor) {
