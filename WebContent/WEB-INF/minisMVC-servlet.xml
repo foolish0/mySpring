@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<beans>
-    <bean id="/helloworld" class="com.myspring.test.HelloWorldBean" value="doGet"/>
-</beans>
+<!--<beans>-->
+<!--    <bean id="/helloworld" class="com.myspring.test.mvc.HelloWorldBean" value="doGet"/>-->
+<!--</beans>-->
+<components>
+    <component-scan base-package="com.myspring.test.mvc"/>
+</components>
