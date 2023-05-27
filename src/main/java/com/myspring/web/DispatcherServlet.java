@@ -1,5 +1,8 @@
 package com.myspring.web;
 
+import com.myspring.beans.BeansException;
+import com.myspring.beans.factory.annotation.Autowired;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -48,12 +52,15 @@ public class DispatcherServlet extends HttpServlet {
 
     private String sContextConfigLocation;
 
+    private WebApplicationContext webApplicationContext;
+
     public DispatcherServlet() {
         super();
     }
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        this.webApplicationContext = (WebApplicationContext) this.getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONFIG_ATTRIBUTE);
 
         sContextConfigLocation = config.getInitParameter("contextConfigLocation");
         URL xmlPath = null;
@@ -109,10 +116,34 @@ public class DispatcherServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
             try {
-                obj = clz.newInstance();
-                this.controllerObjs.put(controllerName, obj);
+                // todo: 暂时粗暴处理，接口不能newInstance
+                if (!clz.isInterface()) {
+                    obj = clz.newInstance();
+                    populateBean(obj);
+                    this.controllerObjs.put(controllerName, obj);
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void populateBean(Object bean) throws BeansException {
+        Class<?> clazz = bean.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        if (fields != null) {
+            for (Field field : fields) {
+                boolean isAutowired = field.isAnnotationPresent(Autowired.class);
+                if (isAutowired) {
+                    String fieldName = field.getName();
+                    Object autowiredObj = this.webApplicationContext.getBean(fieldName);
+                    try {
+                        field.setAccessible(true);
+                        field.set(bean, autowiredObj);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -149,7 +180,7 @@ public class DispatcherServlet extends HttpServlet {
         for (String controllerName : this.controllerNames) {
             Class<?> clazz = this.controllerClasses.get(controllerName);
             Object obj = this.controllerObjs.get(controllerName);
-            Method[] methods = clazz.getMethods();
+            Method[] methods = clazz.getDeclaredMethods();
             if (methods != null) {
                 for (Method method : methods) {
                     boolean hasRequestMapping = method.isAnnotationPresent(RequestMapping.class);
