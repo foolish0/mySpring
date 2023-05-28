@@ -68,17 +68,17 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         finishRefresh();
     }
 
-    abstract void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory);
+    public abstract void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory);
 
-    abstract void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory);
+    public abstract void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory);
 
-    abstract void initApplicationEventPublisher();
+    public abstract void initApplicationEventPublisher();
 
-    abstract void onRefresh();
+    public abstract void onRefresh();
 
-    abstract void registerListener();
+    public abstract void registerListener();
 
-    abstract void finishRefresh();
+    public abstract void finishRefresh();
 
     @Override
     public String getApplicationName() {

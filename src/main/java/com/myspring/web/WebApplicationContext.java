@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
  */
 public interface WebApplicationContext extends ApplicationContext {
     String ROOT_WEB_APPLICATION_CONFIG_ATTRIBUTE = WebApplicationContext.class.getName() + ".ROOT";
-    ServletContext getServlet();
+    ServletContext getServletContext();
 
     void setServletContext(ServletContext servletContext);
 }
