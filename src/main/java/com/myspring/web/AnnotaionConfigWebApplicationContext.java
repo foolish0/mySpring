@@ -8,7 +8,6 @@ import com.myspring.context.*;
 
 import javax.servlet.ServletContext;
 import java.io.File;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +18,15 @@ import java.util.List;
  */
 public class AnnotaionConfigWebApplicationContext extends AbstractApplicationContext implements WebApplicationContext {
     private ServletContext servletContext;
-    private WebApplicationContext parentWebApplicationContext;
+    private WebApplicationContext parentApplicationContext;
     DefaultListableBeanFactory beanFactory;
     public AnnotaionConfigWebApplicationContext(String fileName) {
         this(fileName, null);
     }
 
-    public AnnotaionConfigWebApplicationContext(String fileName, WebApplicationContext parentWebApplicationContext) {
-        this.parentWebApplicationContext = parentWebApplicationContext;
-        this.servletContext = this.parentWebApplicationContext.getServletContext();
+    public AnnotaionConfigWebApplicationContext(String fileName, WebApplicationContext parentApplicationContext) {
+        this.parentApplicationContext = parentApplicationContext;
+        this.servletContext = this.parentApplicationContext.getServletContext();
         URL xmlPath = null;
         try {
             xmlPath = this.getServletContext().getResource(fileName);
@@ -39,7 +38,7 @@ public class AnnotaionConfigWebApplicationContext extends AbstractApplicationCon
         List<String> controllerNames = scanPackages(packageNames);
         DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
         this.beanFactory = bf;
-        this.beanFactory.setParentBeanFactory(this.parentWebApplicationContext.getBeanFactory());
+        this.beanFactory.setParentBeanFactory(this.parentApplicationContext.getBeanFactory());
         loadBeanDefinitions(controllerNames);
 
         if (true) {
@@ -70,13 +69,13 @@ public class AnnotaionConfigWebApplicationContext extends AbstractApplicationCon
 
     private List<String> scanPackage(String packageName) {
         List<String> tempControllerNames = new ArrayList<>();
-        URI uri = null;
+        URL url = null;
         try {
-            uri = this.getClass().getResource("/" + packageName.replaceAll("\\.", "/")).toURI();
+            url = this.getClass().getResource("/" + packageName.replaceAll("\\.", "/"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        File dir = new File(uri);
+        File dir = new File(url.getFile());
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) {
                 scanPackage(packageName + "." + file.getName());

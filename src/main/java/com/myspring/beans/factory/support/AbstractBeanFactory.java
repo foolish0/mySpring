@@ -35,7 +35,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
             try {
                 getBean(beanName);
             } catch (BeansException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
@@ -53,17 +53,19 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
                 System.out.println("get bean null ---------- " + beanName);
                 // 获取bean的定义
                 BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
-                singleton = createBean(beanDefinition);
-                this.registerSingleton(beanName, singleton);
-                // 进行beanPostProcessor处理
-                // step 1：before
-                applyBeanPostProcessorBeforeInitialization(singleton, beanName);
-                // step 2：init
-                if (beanDefinition.getInitMethodName() != null && !"".equals(beanDefinition.getInitMethodName())) {
-                    invokeInitMethod(beanDefinition, singleton);
+                if (beanDefinition != null) {
+                    singleton = createBean(beanDefinition);
+                    this.registerSingleton(beanName, singleton);
+                    // 进行beanPostProcessor处理
+                    // step 1：before
+                    applyBeanPostProcessorBeforeInitialization(singleton, beanName);
+                    // step 2：init
+                    if (beanDefinition.getInitMethodName() != null && !"".equals(beanDefinition.getInitMethodName())) {
+                        invokeInitMethod(beanDefinition, singleton);
+                    }
+                    // step 3：after
+                    applyBeanPostProcessorAfterInitialization(singleton, beanName);
                 }
-                // step 3：after
-                applyBeanPostProcessorAfterInitialization(singleton, beanName);
             }
         }
         return singleton;
@@ -129,7 +131,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
                 obj = clz.newInstance();
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         System.out.println(beanDefinition.getId() + " bean created. " + beanDefinition.getClassName() + " : " + obj);
         return obj;
@@ -140,56 +142,61 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     private void handleProperties(BeanDefinition beanDefinition, Class<?> clz, Object obj) {
+        System.out.println("handle properties for bean : " + beanDefinition.getId());
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
-        if (!propertyValues.isEmpty()) {
-            for (int i = 0; i < propertyValues.size(); i++) {
-                PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
-                String pType = propertyValue.getType();
-                String pName = propertyValue.getName();
-                Object pValue = propertyValue.getValue();
-                boolean isRef = propertyValue.isRef();
-                Class<?>[] types = new Class<?>[1];
-                Object[] values = new Object[1];
+        if (propertyValues != null) {
+            if (!propertyValues.isEmpty()) {
+                for (int i = 0; i < propertyValues.size(); i++) {
+                    PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
+                    String pType = propertyValue.getType();
+                    String pName = propertyValue.getName();
+                    Object pValue = propertyValue.getValue();
+                    boolean isRef = propertyValue.isRef();
+                    Class<?>[] types = new Class<?>[1];
+                    Object[] values = new Object[1];
 
-                if (!isRef) {
-                    if ("String".equals(pType) || "java.lang.String".equals(pType)) {
-                        types[0] = String.class;
-                    } else if ("Integer".equals(pType) || "java.lang.Integer".equals(pType)) {
-                        types[0] = Integer.class;
-                    } else if ("int".equals(pType)) {
-                        types[0] = int.class;
+                    if (!isRef) {
+                        if ("String".equals(pType) || "java.lang.String".equals(pType)) {
+                            types[0] = String.class;
+                        } else if ("Integer".equals(pType) || "java.lang.Integer".equals(pType)) {
+                            types[0] = Integer.class;
+                        } else if ("int".equals(pType)) {
+                            types[0] = int.class;
+                        } else {
+                            types[0] = String.class;
+                        }
+                        values[0] = pValue;
                     } else {
-                        types[0] = String.class;
+                        try {
+                            types[0] = Class.forName(pType);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            values[0] = getBean((String) pValue);
+                        } catch (BeansException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                    values[0] = pValue;
-                } else {
-                    try {
-                        types[0] = Class.forName(pType);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    try {
-                        values[0] = getBean((String) pValue);
-                    } catch (BeansException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
 
-                // 按照setter的命名规范查找set方法，并调用
-                String methodName = "set" + pName.substring(0, 1).toUpperCase() + pName.substring(1);
-                Method method = null;
-                try {
-                    method = clz.getMethod(methodName, types);
-                } catch (NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    method.invoke(obj, values);
-                } catch (InvocationTargetException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    // 按照setter的命名规范查找set方法，并调用
+                    String methodName = "set" + pName.substring(0, 1).toUpperCase() + pName.substring(1);
+                    Method method = null;
+                    try {
+                        method = clz.getMethod(methodName, types);
+                    } catch (NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        method.invoke(obj, values);
+                    } catch (InvocationTargetException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
-        }
+        } else {
+            System.out.println("bean " + beanDefinition.getId() + " has no properties...");
+        } 
     }
 
     private void invokeInitMethod(BeanDefinition beanDefinition, Object obj) {

@@ -3,7 +3,6 @@ package com.myspring.beans.factory.support;
 import com.myspring.beans.BeansException;
 import com.myspring.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import com.myspring.beans.factory.config.BeanDefinition;
-import com.myspring.beans.factory.config.ConfigurableBeanFactory;
 import com.myspring.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.Map;
  */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
         implements ConfigurableListableBeanFactory {
-    private ConfigurableBeanFactory parentBeanFactory;
+    private ConfigurableListableBeanFactory parentBeanFactory;
     @Override
     public int getBeanDefinitionCount() {
         return this.beanDefinitionMap.size();
@@ -25,7 +24,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     @Override
     public String[] getBeanDefinitionNames() {
-        return (String[]) this.beanDefinitionNames.toArray();
+        return (String[]) this.beanDefinitionNames.toArray(new String[this.beanDefinitionNames.size()]);
     }
 
     @Override
@@ -61,8 +60,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return result;
     }
 
-    public void setParentBeanFactory(ConfigurableBeanFactory parentBeanFactory) {
-        this.parentBeanFactory = parentBeanFactory;
+    public void setParentBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+        this.parentBeanFactory = beanFactory;
     }
 
     @Override

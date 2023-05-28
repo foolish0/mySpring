@@ -1,6 +1,6 @@
 import com.myspring.beans.BeansException;
 import com.myspring.context.ClassPathXmlApplicationContext;
-import com.myspring.test.AService;
+import com.myspring.test.service.AService;
 
 public class TestClass {
     public static void main(String[] args) throws BeansException {

@@ -1,4 +1,4 @@
-package com.myspring.test;
+package com.myspring.test.service;
 
 public class AServiceImpl implements AService {
     private String name;

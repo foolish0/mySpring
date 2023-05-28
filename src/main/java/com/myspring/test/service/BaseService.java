@@ -1,6 +1,7 @@
-package com.myspring.test;
+package com.myspring.test.service;
 
 import com.myspring.beans.factory.annotation.Autowired;
+import com.myspring.test.service.BaseBaseService;
 
 /**
  * @author Gabriel
@@ -20,5 +21,12 @@ public class BaseService {
 
     public void setBasebaseservice(BaseBaseService basebaseservice) {
         this.basebaseservice = basebaseservice;
+    }
+    public void sayHello() {
+        System.out.print("Base Service says hello");
+        basebaseservice.sayHello();
+    }
+    public String getHello() {
+        return "Base Service get Hello.";
     }
 }
